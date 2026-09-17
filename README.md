@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# ooOo Games website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A responsive React website using shadcn/ui components based on Radix, Tailwind CSS, and Lucide icons. Built in the existing Create React App project, with the structure from the three supplied documents. The current visual identity follows the supplied black-and-white ooOo business cards: geometric uppercase type, outlined dot grids, diagonal stripes, angular borders, and an inverted white studio section.
 
-## Available Scripts
+## Run locally
 
-In the project directory, you can run:
+Requires Node.js 22.9+ (Node 24 recommended).
 
-### `npm start`
+```sh
+npm install
+npm run server
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+In a second terminal:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```sh
+npm start
+```
 
-### `npm test`
+Open http://127.0.0.1:3000/oooogames. Navigation uses hash routes to remain compatible with the existing GitHub Pages setup. The development server proxies /api and /uploads to the studio server on port 3001.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Administrator setup
 
-### `npm run build`
+```sh
+npm run admin:setup
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This generates a strong random administrator password, displays it once, and writes only its scrypt hash to the ignored .env file. Save the password, restart `npm run server`, and open http://127.0.0.1:3000/oooogames/#/admin. Existing .env files are never overwritten by setup.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+If .env already exists, generate a hash using the exported `passwordHash` helper in `server/app.mjs` and set ADMIN_PASSWORD_HASH. Never put credentials in REACT_APP_ variables. To rotate a password, replace the hash and restart the server; sessions are invalidated on restart.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Administration has no default password and is not linked in public navigation. Authorization is enforced on the server. Sessions use HttpOnly, SameSite=Strict cookies; production additionally uses Secure. Mutating requests require an allowed Origin, and login/contact/comment routes have basic IP rate limits.
 
-### `npm run eject`
+The editor supports draft/published posts, Blog/News/Events categories, image uploads, YouTube/Vimeo videos, comment moderation, and contact inquiries. Unapproved comments and draft posts are never returned by public APIs. A contact success means the inquiry was saved in the admin inbox; there is no email-delivery service configured.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Replace placeholder content
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- `src/data/site.js`: studio text, contact details, social links, team profiles, game descriptions, store links, screenshots, and service descriptions.
+- Set `site.promoVideo` to the final MP4/WebM URL to replace the home slideshow with a muted looping video.
+- Each game’s `trailer` accepts a YouTube or Vimeo link.
+- `public/images/`: replace the three temporary stock images and add team photos.
+- `src/data/posts.json`: seed posts for a fresh content store and fallback preview. All supplied posts are explicitly labeled samples.
+- After first server start, edit posts through the admin panel; changing the seed does not overwrite saved content.
+- Privacy and terms pages are labeled draft placeholders for the studio’s final text.
+- The supplied eye logo is stored unchanged at `public/brand/oooo-eye.png` and used in the header, hero, footer, and favicon.
+- `src/brand.css` contains the business-card-inspired monochrome design. Game images use a reversible CSS grayscale filter; original assets retain their colors.
+- The local Chakra Petch and Space Grotesk fonts and their OFL licenses live in `public/fonts/`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Storage and deployment
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The Node server persists posts, inquiries, comments, and uploaded images in the ignored `.data/` directory. Back it up and keep it on persistent storage. This is a small, single-process studio backend; do not run multiple writers against the JSON store.
 
-## Learn More
+```sh
+npm run build
+npm run server
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The server serves the production build at http://127.0.0.1:3001/oooogames/. For a real deployment, place it behind HTTPS, set NODE_ENV=production and PUBLIC_ORIGIN to the exact external origin (no trailing slash), configure the host/port through environment variables, and preserve .data. HTTP Origin forwarding must remain intact through the reverse proxy.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The existing `npm run deploy` still deploys the frontend to GitHub Pages. GitHub Pages cannot run the Node API: deploy the backend separately and configure an appropriate same-origin reverse proxy, or host both on the Node server. Without a backend, the frontend shows sample posts and contact/admin actions report that the server is unavailable rather than claiming success.
 
-### Code Splitting
+## Checks
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```sh
+npm run build
+npm run test:server
+npm test -- --watchAll=false
+```
 
-### Analyzing the Bundle Size
+API tests use isolated temporary directories and cover authorization, CSRF origin checks, draft visibility, publishing, duplicate slugs, persistent storage, comment moderation, contact validation, and upload validation.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Sources and assets
 
-### Making a Progressive Web App
+Content and structure:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- https://docs.google.com/document/d/1TbMjrrJjPY0LnA24H7_znvu7jQcwR7kVGGqgd0f15Jo/
+- https://docs.google.com/document/d/16SfImJm8JuioJRdstvMrA3PMsQFREW3fwio_hSDtZ5Y/
+- https://docs.google.com/document/d/1pNULDAeuS2UdCPPpANs2TR9FYRcr-Q9rF-q9xmsMhQY/
 
-### Advanced Configuration
+Initial layout reference: https://mindlabz.studio/
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Current branding references: the four Google Drive business cards and the supplied ooOo_Logo_2.0.png.
 
-### Deployment
+- https://drive.google.com/file/d/1ixx2RbMsIjmUcBuv4ztpZu_hPDQQFdeG/view
+- https://drive.google.com/file/d/1xb-gLhKIqZmko5DI2bDkKWzUl0Gtci37/view
+- https://drive.google.com/file/d/17_XWOoZuq9mX1iMLrQtXKZcqXvXjmVHp/view
+- https://drive.google.com/file/d/1KMIbdbpTGhEHORvt2Lfkh0vGq9H2Hlmw/view
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+TimeSplit key art and screenshots: the studio’s official Steam listing at https://store.steampowered.com/app/3781610/TimeSplit/. TimeSplit’s current listing supplies the gameplay description and coming-soon status.
 
-### `npm run build` fails to minify
+Temporary stock imagery (Unsplash license):
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Workspace: Kevin Canlas, https://unsplash.com/photos/ia7-T2bjDb4
+- Coral reef: NEOM, https://unsplash.com/photos/HYHYGLs-Rp8
+- VR: https://unsplash.com/s/photos/oculus — source image photo-1588590560438-5e27fe3f6b71
+
+UI primitives follow the shadcn/ui composition patterns (MIT) using Radix, class-variance-authority, and Tailwind. Theme and page layouts are custom.

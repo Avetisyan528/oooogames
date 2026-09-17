@@ -1,0 +1,44 @@
+[
+  {
+    "id": "sample-timesplit",
+    "slug": "inside-timesplit",
+    "title": "A little time. A lot of possibilities.",
+    "category": "Blog",
+    "date": "",
+    "author": "ooOo Games",
+    "image": "/images/timesplit-2.jpg",
+    "excerpt": "A space for development notes, experiments, and the little decisions that bring TimeSplit to life.",
+    "body": "This is a sample development post. Replace it with your first story from the studio.\n\nShare what you are building, what you have learned, and what players can look forward to. Add screenshots, a trailer, or a look at a mechanic in progress.",
+    "published": true,
+    "placeholder": true,
+    "videoUrl": ""
+  },
+  {
+    "id": "sample-studio",
+    "slug": "hello-from-oooo",
+    "title": "Hello from ooOo Games.",
+    "category": "News",
+    "date": "",
+    "author": "ooOo Games",
+    "image": "/images/placeholder-investigation.jpg",
+    "excerpt": "Meet the independent studio in Gyumri, Armenia. This is the beginning of our story.",
+    "body": "Welcome to ooOo Games! We are an independent studio based in Gyumri, Armenia, dedicated to crafting unique and immersive gaming experiences.\n\nThis is sample news copy. Replace this section with a studio announcement, milestone, or project update.",
+    "published": true,
+    "placeholder": true,
+    "videoUrl": ""
+  },
+  {
+    "id": "sample-events",
+    "slug": "out-of-the-studio",
+    "title": "Good games bring people together.",
+    "category": "Events",
+    "date": "",
+    "author": "ooOo Games",
+    "image": "/images/placeholder-vr.jpg",
+    "excerpt": "A home for game jams, showcases, and moments shared with our community.",
+    "body": "This is a sample event post. Add the event name, date, location, and the studio’s involvement here.\n\nTell readers how they can join, what you will be showing, and where to find more information.",
+    "published": true,
+    "placeholder": true,
+    "videoUrl": ""
+  }
+]
