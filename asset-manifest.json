@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/oooogames/static/css/main.f0f7ddbd.css",
+    "main.js": "/oooogames/static/js/main.c62b4f1a.js",
+    "static/js/453.0f94c353.chunk.js": "/oooogames/static/js/453.0f94c353.chunk.js",
+    "index.html": "/oooogames/index.html",
+    "main.f0f7ddbd.css.map": "/oooogames/static/css/main.f0f7ddbd.css.map",
+    "main.c62b4f1a.js.map": "/oooogames/static/js/main.c62b4f1a.js.map",
+    "453.0f94c353.chunk.js.map": "/oooogames/static/js/453.0f94c353.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f0f7ddbd.css",
+    "static/js/main.c62b4f1a.js"
+  ]
+}
